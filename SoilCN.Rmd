@@ -48,23 +48,30 @@ N- =  #nitrate concentration soil
 ADD =  #rate at which carbon is added to soil and made available to microbial colonies
 BD =   #rate which carbon returns to litter pool due to dead microbe
 DECl = phi.100 #carbon output due to microbial decomp
-phi =  #nondimentional factor accounting for reduction of decomp rate when poor nitrogen levels insufficiant to integrate in bacteria
+phi = 0.67 #nondimentional factor accounting for reduction of decomp rate when poor nitrogen levels insufficiant to integrate in bacteria
 DECh = phi.10 
 rr = 0.6
 rh = 0.2
 IMMmax = 1
 (C/N)h = 10
 (C/N)b = 8
+(C/N)l = 40
 
-S_0 <- 500.0 # Initial conditions
-I_0 <- 5.0 # initial conditions
-R_0 <- 0.0 # initial conditions
+Cl_0 <-    # Initial conditions
+Ch_0 <-
+Cb_0 <-
+Nl_0 <-
+Nh_0 <-
+Nb_0 <-
+N+_0 <-
+N-_0 <-
+
 times <- seq(0.0, 100.0, 0.1) # Time sequence
 parms <- c(mu=mu, 
            beta=beta, 
            gamma=gamma)
-xstart <- c(S=S_0, I=I_0, R= R_0) # Initial conditions
-my.atol <- c(1e-16,1e-16,1e-16); # Abs. accuracy - remember to add a term for each equation
+xstart <- c(Cl=Cl_0, Ch=Ch_0, Cb=Cb_0, Nl=Nl_0, Nh=Nh_0, Nb=Nb_0, N+=N+_0, N-=N-_0) # Initial conditions
+my.atol <- c(1e-16,1e-16,1e-16,1e-16,1e-16,1e-16,1e-16,1e-16); # Abs. accuracy - remember to add a term for each equation
 my.rtol <- 1e-12 # Rel. accuracy
 out <- as.data.frame(lsoda(xstart, times,
                            sir, parms, my.rtol, my.atol)) # Solve the eqns.
