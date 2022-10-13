@@ -21,18 +21,18 @@ require(deSolve)
 sir <- function(t, x, p) {
   with(as.list(c(x,p)),{
     
-    dCl <- ADD + BD - DECl
-    dCh <- rhDECl - DECh
-    dCb <- (1-rh-rr)*DECl + (1-rr)*DECh - BD
-    dNl <- (ADD/(C/N)add) + (BD/(C/N)b) - (DECl/(C/N)l)
-    dNh <- rh*(DECl/(C/N)h) - (DECh/(C/N)h)
-    dNb <- [1-rh*((C/N)l)/((C/N)h)]*(DECl/(C/N)l) + (DECh/(C/N)h) - (BD/(C/N)b) - phi
-    dN+ <- MIN -IMM+ - NIT - LE+ - UP+
-    dN- <- NIT - IMM- - LE - UP-
+    dCl <- ADD + BD - DECl # Carbon litter pool (eq 4)
+    dCh <- rh*DECl - DECh #Humus pool C (eq 8)
+    dCb <- (1-rh-rr)*DECl + (1-rr)*DECh - BD # Microbial biomass pool (eq 11)
+    dNl <- ADD/CNadd + BD/CNb - DECl/CNl # C Nitrogen litter pool (eq 7)
+    dNh <- rh*(DECl/CNh) - (DECh/CNh) # Humus pool N (eq 10)
+    dNb <- (1-rh*CNl/CNh)*DECl/CNl + DECh/CNh - BD/CNb - phi # N Microbial biomass pool (eq 12)
+    dNplus <- MIN -IMMplus - NIT - LEplus - UPplus # eq 24 CHECK
+    dNminus <- NIT - IMMminus - LEminus - UPminus # eq 25 CHECK
     Ctot <- ADD - rrDECl - rrDECh
-    Ntot <- ADD/((C/N)add) - LE+ - UP+ - LE- - UP-
+    Ntot <- ADD/CNadd - LE+ - UP+ - LE- - UP-
     
-    list(c(dCl, dCh, dCb, dNl, dNh, dNb, dN+, dN-, Ctot, Ntot))
+    list(c(dCl, dCh, dCb, dNl, dNh, dNb, dNplus, dNminus, Ctot, Ntot))
   })
 }
 
@@ -50,17 +50,34 @@ alpha <- 11 ###Average storm depth a (mm) 11
 
 ## Vegetation parameters
 Emax <- 4.5 ###Max. evapotranspiration Emax (mm d1) 4.5
-Add <- 1.5 ###Added litter (avg. rate) Add (gC m2 d1) 1.5
+ADD <- 1.5 ###Added litter (avg. rate) Add (gC m2 d1) 1.5
 
 ## Soil-veg. parameters
 ss <- 0.17 ###Point of incipient stress s 0.17
 sw <- 0.065 ###Permanent wilting point sw 0.065
 
 ##C/N ratios
-CNadd <- ### Added litter ðC=NÞadd 58
-CNbio <- ###Microbial biomass ðC=NÞbio 11.5
-CNh <- ###Humus ðC=NÞh 22
+CNadd <- 58 ### Added litter ðC=NÞadd 58
+CNbio <- 11.5 ###Microbial biomass ðC=NÞbio 11.5
+CNh <- 22 ###Humus ðC=NÞh 22
+  
+# Parameters calibration
 
+aplus <- 0.05
+aminus <- 1
+DEMplus <- 0.2
+DEMminus <- 0.5
+dd <- 3
+F <- 0.1
+kd <- 0.0085
+kl <- 0.000065
+kiplus <- 1
+kiminus <-  1
+kh <- 0.0000025
+kn <-  0.6
+rh <- min(0.25,CNh/CNl) #CHECK THIS
+rr <- 0.6
+  
 ## Parameters 2
   
 Cl = 960  #carbon concentration  litter pool;
