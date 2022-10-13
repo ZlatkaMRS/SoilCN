@@ -36,14 +36,15 @@ sir <- function(t, x, p) {
   })
 }
 
-Cl =   #carbon concentration  litter pool;
-Ch =  #carbon concentration humus pool;
-Cb =  #carbon concentration biomass pool;
+Cl = 960  #carbon concentration  litter pool;
+Ch = 8500  #carbon concentration humus pool;
+Cb = 12.5 #carbon concentration biomass pool;
 Nl =  #organic nitrogen concentration  litter pool;
 Nh =  #organic nitrogen concentration humus pool;
 Nb =  #organic nitrogen concentration biomass pool;
-N+ =  #ammonium concentration soil;
-N- =  #nitrate concentration soil
+N+ = 0 #ammonium concentration soil;
+N- = 1.25 #nitrate concentration soil
+s = 0.11 #average soil moisture
   
 ADD =  #rate at which carbon is added to soil and made available to microbial colonies
 BD =   #rate which carbon returns to litter pool due to dead microbe
