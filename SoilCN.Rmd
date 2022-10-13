@@ -26,28 +26,36 @@ sir <- function(t, x, p) {
     dCb <- (1-rh-rr)*DECl + (1-rr)*DECh - BD
     dNl <- (ADD/(C/N)add) + (BD/(C/N)b) - (DECl/(C/N)l)
     dNh <- rh*(DECl/(C/N)h) - (DECh/(C/N)h)
-    dNb <- [1-rh*((C/N)l)/((C/N)h)]*(DECl/(C/N)l) + (DECh/(C/N)h) - (BD/(C/N)b) - O
+    dNb <- [1-rh*((C/N)l)/((C/N)h)]*(DECl/(C/N)l) + (DECh/(C/N)h) - (BD/(C/N)b) - phi
     dN+ <- MIN -IMM+ - NIT - LE+ - UP+
     dN- <- NIT - IMM- - LE - UP-
     Ctot <- ADD - rrDECl - rrDECh
     Ntot <- ADD/((C/N)add) - LE+ - UP+ - LE- - UP-
     
-    list(c(dCl, dCh, dCb, dNl, dNh, dNb, dN+, dN-))
+    list(c(dCl, dCh, dCb, dNl, dNh, dNb, dN+, dN-, Ctot, Ntot))
   })
 }
 
-Cl  #carbon concentration  litter pool;
-Ch  #carbon concentration humus pool;
-Cb  #carbon concentration biomass pool;
-Nl  #organic nitrogen concentration  litter pool;
-Nh  #organic nitrogen concentration humus pool;
-Nb  #organic nitrogen concentration biomass pool;
-N+  #ammonium concentration soil;
-N-  #nitrate concentration soil
+Cl =   #carbon concentration  litter pool;
+Ch =  #carbon concentration humus pool;
+Cb =  #carbon concentration biomass pool;
+Nl =  #organic nitrogen concentration  litter pool;
+Nh =  #organic nitrogen concentration humus pool;
+Nb =  #organic nitrogen concentration biomass pool;
+N+ =  #ammonium concentration soil;
+N- =  #nitrate concentration soil
   
-mu = 1/(75*365)
-beta <- 0.1 # infection rate
-gamma <- 0.1 # recovery rate
+ADD =  #rate at which carbon is added to soil and made available to microbial colonies
+BD =   #rate which carbon returns to litter pool due to dead microbe
+DECl = phi.100 #carbon output due to microbial decomp
+phi =  #nondimentional factor accounting for reduction of decomp rate when poor nitrogen levels insufficiant to integrate in bacteria
+DECh = phi.10 
+rr = 0.6
+rh = 0.2
+IMMmax = 1
+(C/N)h = 10
+(C/N)b = 8
+
 S_0 <- 500.0 # Initial conditions
 I_0 <- 5.0 # initial conditions
 R_0 <- 0.0 # initial conditions
