@@ -1,11 +1,11 @@
 ---
-title: "SoilCN"
+  title: "SoilCN"
 author: "ZM,VS,KO"
 date: "10/13/2022"
 output: html_document
 ---
-
-```{r setup, include=FALSE}
+  
+  ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -21,24 +21,40 @@ require(deSolve)
 sir <- function(t, x, p) {
   with(as.list(c(x,p)),{
     
-    dS <- mu*(S+I+R) - beta*S*I  - mu*S
-    dI <- beta*S*I - gamma*I - mu*I
-    dR <- gamma*I - mu*R 
+    dCl <- ADD + BD - DECl
+    dCh <- rhDECl - DECh
+    dCb <- (1-rh-rr)*DECl + (1-rr)*DECh - BD
+    dNl <- (ADD/(C/N)add) + (BD/(C/N)b) - (DECl/(C/N)l)
+    dNh <- rh*(DECl/(C/N)h) - (DECh/(C/N)h)
+    dNb <- [1-rh*((C/N)l)/((C/N)h)]*(DECl/(C/N)l) + (DECh/(C/N)h) - (BD/(C/N)b) - O
+    dN+ <- MIN -IMM+ - NIT - LE+ - UP+
+    dN- <- NIT - IMM- - LE - UP-
+    Ctot <- ADD - rrDECl - rrDECh
+    Ntot <- ADD/((C/N)add) - LE+ - UP+ - LE- - UP-
     
-    list(c(dS, dI, dR))
+    list(c(dCl, dCh, dCb, dNl, dNh, dNb, dN+, dN-))
   })
 }
+
+Cl  #carbon concentration  litter pool;
+Ch  #carbon concentration humus pool;
+Cb  #carbon concentration biomass pool;
+Nl  #organic nitrogen concentration  litter pool;
+Nh  #organic nitrogen concentration humus pool;
+Nb  #organic nitrogen concentration biomass pool;
+N+  #ammonium concentration soil;
+N-  #nitrate concentration soil
+  
 mu = 1/(75*365)
 beta <- 0.1 # infection rate
 gamma <- 0.1 # recovery rate
-
 S_0 <- 500.0 # Initial conditions
 I_0 <- 5.0 # initial conditions
 R_0 <- 0.0 # initial conditions
-
 times <- seq(0.0, 100.0, 0.1) # Time sequence
-parms <- c(mu=mu, beta=beta, gamma=gamma)
-
+parms <- c(mu=mu, 
+           beta=beta, 
+           gamma=gamma)
 xstart <- c(S=S_0, I=I_0, R= R_0) # Initial conditions
 my.atol <- c(1e-16,1e-16,1e-16); # Abs. accuracy - remember to add a term for each equation
 my.rtol <- 1e-12 # Rel. accuracy
@@ -50,11 +66,7 @@ plot(out$time, out$I, col="black", type="l", lwd=5,
 #lines(out$time, out$I, col="red", lwd=5)
 #lines(out$time, out$R, col="blue", lwd=5)
 grid(NULL, NULL, lty=1,lwd=1)
-
 #N_star <- m/b
 #print(N_star) # Print out equilibria values
 #print((r/a)*(1-m/(b*K)))
-
-
 ```
-
