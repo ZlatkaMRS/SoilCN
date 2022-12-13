@@ -1,0 +1,3 @@
+"0","#lines(out$time, out$Ch, col=""red"", lwd=5)"
+"0","#lines(out$time, out$Cb, col=""blue"", lwd=5)"
+"0","grid(NULL, NULL, lty=1,lwd=1)"

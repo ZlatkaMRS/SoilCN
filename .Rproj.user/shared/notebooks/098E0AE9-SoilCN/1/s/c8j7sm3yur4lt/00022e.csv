@@ -1,0 +1,4 @@
+"0",""
+"0","plot(out$time, out$Ch, col=""blue"", type=""l"", lwd=5,"
+"0","     ylim=c(0,8500), xlim = c(0,250),"
+"0","     xlab=""Time"", ylab=""Number"")"
