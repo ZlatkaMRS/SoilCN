@@ -1,4 +1,0 @@
-"0",""
-"0","plot(out$time, out$Nplus, col=""orange"", type=""l"", lwd=5,"
-"0","     #ylim=c(0,8000), xlim = c(0,5000),"
-"0","     xlab=""Time"", ylab=""Number"")"
